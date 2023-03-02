@@ -13,7 +13,7 @@ use Craft;
 use craft\db\QueryAbortedException;
 use craft\queue\BaseJob;
 use craft\queue\QueueInterface;
-use crankd\mc\MailchimpCommerce;
+use crankd\mc\MailchimpCommerceSync;
 use Throwable;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
@@ -46,7 +46,7 @@ class SyncOrders extends BaseJob
 	 */
 	public function execute($queue): void
 	{
-		$orders = MailchimpCommerce::$i->orders;
+		$orders = MailchimpCommerceSync::$i->orders;
 		$i = 0;
 		$total = count($this->orderIds);
 
@@ -70,6 +70,6 @@ class SyncOrders extends BaseJob
 
 	protected function defaultDescription(): ?string
 	{
-		return MailchimpCommerce::t('Syncing Orders to Mailchimp');
+		return MailchimpCommerceSync::t('Syncing Orders to Mailchimp');
 	}
 }

@@ -19,7 +19,7 @@ use craft\web\Controller;
 use crankd\mc\jobs\SyncOrders;
 use crankd\mc\jobs\SyncProducts;
 use crankd\mc\jobs\SyncPromos;
-use crankd\mc\MailchimpCommerce;
+use crankd\mc\MailchimpCommerceSync;
 use Throwable;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
@@ -42,10 +42,10 @@ class SyncController extends Controller
 	 */
 	public function actionStore()
 	{
-		MailchimpCommerce::$i->store->update();
+		MailchimpCommerceSync::$i->store->update();
 
 		Craft::$app->getSession()->setNotice(
-			MailchimpCommerce::t('Store Synced.')
+			MailchimpCommerceSync::t('Store Synced.')
 		);
 	}
 
@@ -54,7 +54,7 @@ class SyncController extends Controller
 		$productClass = Craft::$app->getRequest()->getRequiredBodyParam('class');
 		$typeId = Craft::$app->getRequest()->getBodyParam('type');
 
-		$mailchimpProducts = MailchimpCommerce::getInstance()->chimp->getProducts();
+		$mailchimpProducts = MailchimpCommerceSync::getInstance()->chimp->getProducts();
 		$productIds = [];
 		$productName = 'Products';
 

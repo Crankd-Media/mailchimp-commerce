@@ -21,7 +21,7 @@ use craft\helpers\Db;
 use craft\helpers\UrlHelper;
 use DateTime;
 use crankd\mc\helpers\AddressHelper;
-use crankd\mc\MailchimpCommerce;
+use crankd\mc\MailchimpCommerceSync;
 use Throwable;
 use yii\base\InvalidConfigException;
 use yii\db\Exception;
@@ -49,7 +49,7 @@ class OrdersService extends Component
 	 */
 	public function syncOrderById($orderId)
 	{
-		if (MailchimpCommerce::getInstance()->getSettings()->disableSyncing)
+		if (MailchimpCommerceSync::getInstance()->getSettings()->disableSyncing)
 			return true;
 
 		$hasBeenSynced = $this->_hasOrderBeenSynced($orderId);
@@ -75,17 +75,17 @@ class OrdersService extends Component
 	 */
 	public function deleteOrderById($orderId, $asCart = false)
 	{
-		if (MailchimpCommerce::getInstance()->getSettings()->disableSyncing)
+		if (MailchimpCommerceSync::getInstance()->getSettings()->disableSyncing)
 			return;
 
 		if (!$this->_hasOrderBeenSynced($orderId))
 			return;
 
-		$storeId = MailchimpCommerce::$i->getSettings()->storeId;
+		$storeId = MailchimpCommerceSync::$i->getSettings()->storeId;
 		$order = Commerce::getInstance()->getOrders()->getOrderById($orderId);
 		$type = $asCart || !$order->isCompleted ? 'carts' : 'orders';
 
-		list($success, $data, $error) = MailchimpCommerce::$i->chimp->delete(
+		list($success, $data, $error) = MailchimpCommerceSync::$i->chimp->delete(
 			'ecommerce/stores/' . $storeId . '/'  . $type . '/' . $orderId
 		);
 
@@ -131,10 +131,10 @@ class OrdersService extends Component
 	 */
 	private function _createOrder(Order $order, $data)
 	{
-		$storeId = MailchimpCommerce::$i->getSettings()->storeId;
+		$storeId = MailchimpCommerceSync::$i->getSettings()->storeId;
 		$type = $order->isCompleted ? 'orders' : 'carts';
 
-		list($success, $data, $error) = MailchimpCommerce::$i->chimp->post(
+		list($success, $data, $error) = MailchimpCommerceSync::$i->chimp->post(
 			'ecommerce/stores/' . $storeId . '/' . $type,
 			$data
 		);
@@ -169,10 +169,10 @@ class OrdersService extends Component
 	 */
 	private function _updateOrder($order, $data)
 	{
-		$storeId = MailchimpCommerce::$i->getSettings()->storeId;
+		$storeId = MailchimpCommerceSync::$i->getSettings()->storeId;
 		$type    = $order->isCompleted ? 'orders' : 'carts';
 
-		list($success, $data, $error) = MailchimpCommerce::$i->chimp->patch(
+		list($success, $data, $error) = MailchimpCommerceSync::$i->chimp->patch(
 			'ecommerce/stores/' . $storeId . '/' . $type . '/' . $order->id,
 			$data
 		);
@@ -342,7 +342,7 @@ class OrdersService extends Component
 	 */
 	private function _isOrderShipped(Order $order)
 	{
-		return $order->orderStatus->handle === MailchimpCommerce::$i->getSettings()->shippedStatusHandle;
+		return $order->orderStatus->handle === MailchimpCommerceSync::$i->getSettings()->shippedStatusHandle;
 	}
 
 	/**
@@ -354,7 +354,7 @@ class OrdersService extends Component
 	 */
 	private function _hasOptedIn(Order $order)
 	{
-		$fieldUid = MailchimpCommerce::$i->getSettings()->optInField;
+		$fieldUid = MailchimpCommerceSync::$i->getSettings()->optInField;
 
 		if (!$fieldUid)
 			return false;
@@ -390,7 +390,7 @@ class OrdersService extends Component
 	 */
 	private function _getProduct($purchasable)
 	{
-		$mailchimpProducts = MailchimpCommerce::getInstance()->chimp->getProducts();
+		$mailchimpProducts = MailchimpCommerceSync::getInstance()->chimp->getProducts();
 
 		foreach ($mailchimpProducts as $product) {
 			if ($purchasable instanceof $product->variantClass) {

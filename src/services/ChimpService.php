@@ -19,7 +19,7 @@ use craft\helpers\Json;
 use craft\helpers\UrlHelper;
 use crankd\mc\base\MailchimpProduct;
 use crankd\mc\events\RegisterMailchimpProductsEvent;
-use crankd\mc\MailchimpCommerce;
+use crankd\mc\MailchimpCommerceSync;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -255,7 +255,7 @@ class ChimpService extends Component
 		if (self::$_client)
 			return self::$_client;
 
-		$settings = MailchimpCommerce::$i->getSettings();
+		$settings = MailchimpCommerceSync::$i->getSettings();
 
 		$apiKey     = Craft::parseEnv($settings->apiKey);
 		$dataCenter = $settings->getDataCenter();
@@ -265,7 +265,7 @@ class ChimpService extends Component
 
 		return self::$_client = new Client([
 			'base_uri' => 'https://' . $dataCenter . '.api.mailchimp.com/3.0/',
-			'auth' => ['MailchimpCommerce', $apiKey],
+			'auth' => ['MailchimpCommerceSync', $apiKey],
 		]);
 	}
 }

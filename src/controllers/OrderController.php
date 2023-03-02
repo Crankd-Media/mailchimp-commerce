@@ -13,7 +13,7 @@ use Craft;
 use craft\commerce\Plugin as Commerce;
 use craft\errors\MissingComponentException;
 use craft\web\Controller;
-use crankd\mc\MailchimpCommerce;
+use crankd\mc\MailchimpCommerceSync;
 use Exception;
 use yii\web\BadRequestHttpException;
 use yii\web\Response;
@@ -39,7 +39,7 @@ class OrderController extends Controller
 	public function actionRestore()
 	{
 		$commerce = Commerce::getInstance();
-		$settings = MailchimpCommerce::getInstance()->getSettings();
+		$settings = MailchimpCommerceSync::getInstance()->getSettings();
 		$session = Craft::$app->getSession();
 
 		$number = Craft::$app->getRequest()->getRequiredQueryParam('number');

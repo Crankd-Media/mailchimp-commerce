@@ -10,7 +10,7 @@
 namespace crankd\mc\services;
 
 use craft\base\Component;
-use crankd\mc\MailchimpCommerce;
+use crankd\mc\MailchimpCommerceSync;
 
 /**
  * Class ListsService
@@ -27,7 +27,7 @@ class ListsService extends Component
      */
     public function all()
     {
-        [$success, $data] = MailchimpCommerce::$i->chimp->get('lists', [
+        [$success, $data] = MailchimpCommerceSync::$i->chimp->get('lists', [
             'fields' => 'lists.id,lists.name',
             'count' => 1000000,
         ]);

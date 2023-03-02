@@ -14,7 +14,7 @@ use Throwable;
 use yii\web\Response;
 use yii\base\Exception;
 use craft\web\Controller;
-use crankd\mc\MailchimpCommerce;
+use crankd\mc\MailchimpCommerceSync;
 use yii\web\ForbiddenHttpException;
 use yii\base\InvalidConfigException;
 use yii\web\BadRequestHttpException;
@@ -51,10 +51,10 @@ class StoreController extends Controller
 
 		// $listId = "192fc81395";
 
-		// $id = MailchimpCommerce::$i->getSettings();
+		// $id = MailchimpCommerceSync::$i->getSettings();
 		// dd($id);
 
-		$success = MailchimpCommerce::$i->store->create($listId);
+		$success = MailchimpCommerceSync::$i->store->create($listId);
 
 		if ($success)
 			return $this->redirectToPostedUrl();
@@ -74,7 +74,7 @@ class StoreController extends Controller
 		$this->requireAdmin();
 		$this->requirePostRequest();
 
-		MailchimpCommerce::$i->store->delete();
+		MailchimpCommerceSync::$i->store->delete();
 
 		return $this->redirect('mailchimp-commerce/connect');
 	}

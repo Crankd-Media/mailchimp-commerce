@@ -15,7 +15,7 @@ use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\fields\BaseRelationField;
-use crankd\mc\MailchimpCommerce;
+use crankd\mc\MailchimpCommerceSync;
 
 /**
  * Class FieldsService
@@ -38,7 +38,7 @@ class FieldsService extends Component
 	 */
 	public function getMappedFieldValue($setting, Element $element, $typeUid, $fallback = null)
 	{
-		$mappings = MailchimpCommerce::$i->getSettings()->{$setting};
+		$mappings = MailchimpCommerceSync::$i->getSettings()->{$setting};
 
 		if (!array_key_exists($typeUid, $mappings) || !$mappings[$typeUid])
 			return $fallback;
@@ -63,7 +63,7 @@ class FieldsService extends Component
 	 */
 	public function getMappedFieldRelation($setting, Element $element, $typeUid)
 	{
-		$mappings = MailchimpCommerce::$i->getSettings()->{$setting};
+		$mappings = MailchimpCommerceSync::$i->getSettings()->{$setting};
 
 		if (!array_key_exists($typeUid, $mappings) || !$mappings[$typeUid])
 			return null;

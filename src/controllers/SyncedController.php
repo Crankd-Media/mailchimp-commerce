@@ -12,7 +12,7 @@ namespace crankd\mc\controllers;
 use Craft;
 use craft\errors\MissingComponentException;
 use craft\web\Controller;
-use crankd\mc\MailchimpCommerce;
+use crankd\mc\MailchimpCommerceSync;
 use yii\web\Response;
 
 /**
@@ -32,11 +32,11 @@ class SyncedController extends Controller
 	{
 		$offset = Craft::$app->getRequest()->getQueryParam('offset', 0);
 
-		$data = MailchimpCommerce::$i->products->getSyncedFromMailchimp($offset);
+		$data = MailchimpCommerceSync::$i->products->getSyncedFromMailchimp($offset);
 
 		return $this->renderTemplate('mailchimp-commerce/_synced/products', [
-			'settings' => MailchimpCommerce::$i->getSettings(),
-			'offsetLimit' => MailchimpCommerce::OFFSET_LIMIT,
+			'settings' => MailchimpCommerceSync::$i->getSettings(),
+			'offsetLimit' => MailchimpCommerceSync::OFFSET_LIMIT,
 			'items' => $data['items'],
 			'offset' => $offset,
 			'total' => $data['total'],

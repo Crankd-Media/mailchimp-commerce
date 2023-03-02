@@ -22,7 +22,7 @@ use craft\helpers\Db;
 use craft\helpers\UrlHelper;
 use DateTime;
 use crankd\mc\events\BuildSyncDataEvent;
-use crankd\mc\MailchimpCommerce;
+use crankd\mc\MailchimpCommerceSync;
 use yii\base\InvalidConfigException;
 use yii\db\Exception;
 
@@ -68,7 +68,7 @@ class ProductsService extends Component
 	 */
 	public function syncProductById($productId)
 	{
-		if (MailchimpCommerce::getInstance()->getSettings()->disableSyncing)
+		if (MailchimpCommerceSync::getInstance()->getSettings()->disableSyncing)
 			return true;
 
 		$hasBeenSynced = $this->_hasProductBeenSynced($productId);
@@ -93,15 +93,15 @@ class ProductsService extends Component
 	 */
 	public function deleteProductById($productId)
 	{
-		if (MailchimpCommerce::getInstance()->getSettings()->disableSyncing)
+		if (MailchimpCommerceSync::getInstance()->getSettings()->disableSyncing)
 			return;
 
 		if (!$this->_hasProductBeenSynced($productId))
 			return;
 
-		$storeId = MailchimpCommerce::$i->getSettings()->storeId;
+		$storeId = MailchimpCommerceSync::$i->getSettings()->storeId;
 
-		list($success, $data, $error) = MailchimpCommerce::$i->chimp->delete(
+		list($success, $data, $error) = MailchimpCommerceSync::$i->chimp->delete(
 			'ecommerce/stores/' . $storeId . '/products/' . $productId
 		);
 
@@ -149,7 +149,7 @@ class ProductsService extends Component
 		if ($date)
 			return Craft::$app->getFormatter()->asDatetime($date, 'short');
 
-		return MailchimpCommerce::t('Never');
+		return MailchimpCommerceSync::t('Never');
 	}
 
 	/**
@@ -162,12 +162,12 @@ class ProductsService extends Component
 	 */
 	public function getSyncedFromMailchimp($offset = 0)
 	{
-		$storeId = MailchimpCommerce::$i->getSettings()->storeId;
+		$storeId = MailchimpCommerceSync::$i->getSettings()->storeId;
 
-		list($success, $data, $error) = MailchimpCommerce::$i->chimp->get(
+		list($success, $data, $error) = MailchimpCommerceSync::$i->chimp->get(
 			'ecommerce/stores/' . $storeId . '/products',
 			[
-				'count' => MailchimpCommerce::OFFSET_LIMIT,
+				'count' => MailchimpCommerceSync::OFFSET_LIMIT,
 				'offset' => $offset,
 			]
 		);
@@ -201,9 +201,9 @@ class ProductsService extends Component
 	 */
 	private function _createProduct($productId, $data)
 	{
-		$storeId = MailchimpCommerce::$i->getSettings()->storeId;
+		$storeId = MailchimpCommerceSync::$i->getSettings()->storeId;
 
-		list($success, $data, $error) = MailchimpCommerce::$i->chimp->post(
+		list($success, $data, $error) = MailchimpCommerceSync::$i->chimp->post(
 			'ecommerce/stores/' . $storeId . '/products',
 			$data
 		);
@@ -237,9 +237,9 @@ class ProductsService extends Component
 	 */
 	private function _updateProduct($productId, $data)
 	{
-		$storeId = MailchimpCommerce::$i->getSettings()->storeId;
+		$storeId = MailchimpCommerceSync::$i->getSettings()->storeId;
 
-		list($success, $data, $error) = MailchimpCommerce::$i->chimp->patch(
+		list($success, $data, $error) = MailchimpCommerceSync::$i->chimp->patch(
 			'ecommerce/stores/' . $storeId . '/products/' . $productId,
 			$data
 		);
@@ -359,11 +359,11 @@ class ProductsService extends Component
 	 */
 	private function _getProductVendor(Element $product)
 	{
-		return MailchimpCommerce::$i->fields->getMappedFieldValue(
+		return MailchimpCommerceSync::$i->fields->getMappedFieldValue(
 			'productVendorFields',
 			$product,
 			$this->_getType($product)->uid,
-			MailchimpCommerce::$i->store->getStoreName()
+			MailchimpCommerceSync::$i->store->getStoreName()
 		);
 	}
 
@@ -375,7 +375,7 @@ class ProductsService extends Component
 	 */
 	private function _getProductDescription(Element $product)
 	{
-		return MailchimpCommerce::$i->fields->getMappedFieldValue(
+		return MailchimpCommerceSync::$i->fields->getMappedFieldValue(
 			'productDescriptionFields',
 			$product,
 			$this->_getType($product)->uid,
@@ -415,7 +415,7 @@ class ProductsService extends Component
 			return '';
 
 		$isVariant = $this->_getIsVariant($element);
-		$field = MailchimpCommerce::$i->fields->getMappedFieldRelation(
+		$field = MailchimpCommerceSync::$i->fields->getMappedFieldRelation(
 			$isVariant ? 'variantThumbnailFields' : 'productThumbnailFields',
 			$element,
 			$this->_getType($element, $isVariant)->uid
@@ -429,7 +429,7 @@ class ProductsService extends Component
 
 		// if ($thumbnail)
 		// {
-		// 	$transform = MailchimpCommerce::$i->getSettings()->thumbnailTransform;
+		// 	$transform = MailchimpCommerceSync::$i->getSettings()->thumbnailTransform;
 
 		// 	if ($transform)
 		// 		$transform = Craft::$app->imageTransforms->getTransformByUid($transform);
@@ -454,7 +454,7 @@ class ProductsService extends Component
 	private function _getImages(Element $element)
 	{
 		$isVariant = $this->_getIsVariant($element);
-		$field = MailchimpCommerce::$i->fields->getMappedFieldRelation(
+		$field = MailchimpCommerceSync::$i->fields->getMappedFieldRelation(
 			$isVariant ? 'variantImageFields' : 'productImageFields',
 			$element,
 			$this->_getType($element, $isVariant)->uid
@@ -463,7 +463,7 @@ class ProductsService extends Component
 		if (!$field)
 			return [];
 
-		$transform = MailchimpCommerce::$i->getSettings()->thumbnailTransform;
+		$transform = MailchimpCommerceSync::$i->getSettings()->thumbnailTransform;
 
 		if ($transform)
 			$transform = Craft::$app->imageTransforms->getTransformByUid($transform);
@@ -492,7 +492,7 @@ class ProductsService extends Component
 	 */
 	private function _getVariants($product)
 	{
-		$mailchimpProducts = MailchimpCommerce::getInstance()->chimp->getProducts();
+		$mailchimpProducts = MailchimpCommerceSync::getInstance()->chimp->getProducts();
 
 		foreach ($mailchimpProducts as $mcProduct) {
 			if ($product instanceof $mcProduct->productClass) {
@@ -514,7 +514,7 @@ class ProductsService extends Component
 	 */
 	private function _getProductFromVariant($purchasable)
 	{
-		$mailchimpProducts = MailchimpCommerce::getInstance()->chimp->getProducts();
+		$mailchimpProducts = MailchimpCommerceSync::getInstance()->chimp->getProducts();
 
 		foreach ($mailchimpProducts as $product) {
 			if ($purchasable instanceof $product->variantClass) {
@@ -535,7 +535,7 @@ class ProductsService extends Component
 	 */
 	private function _getStock($variant)
 	{
-		$mailchimpProducts = MailchimpCommerce::getInstance()->chimp->getProducts();
+		$mailchimpProducts = MailchimpCommerceSync::getInstance()->chimp->getProducts();
 
 		foreach ($mailchimpProducts as $mcProduct)
 			if ($variant instanceof $mcProduct->variantClass)
@@ -551,7 +551,7 @@ class ProductsService extends Component
 	 */
 	private function _getUnlimitedStock($variant)
 	{
-		$mailchimpProducts = MailchimpCommerce::getInstance()->chimp->getProducts();
+		$mailchimpProducts = MailchimpCommerceSync::getInstance()->chimp->getProducts();
 
 		foreach ($mailchimpProducts as $mcProduct)
 			if ($variant instanceof $mcProduct->variantClass)
@@ -568,7 +568,7 @@ class ProductsService extends Component
 	 */
 	private function _getIsVariant($element)
 	{
-		$mailchimpProducts = MailchimpCommerce::getInstance()->chimp->getProducts();
+		$mailchimpProducts = MailchimpCommerceSync::getInstance()->chimp->getProducts();
 
 		foreach ($mailchimpProducts as $product)
 			if ($element instanceof $product->variantClass)
@@ -589,7 +589,7 @@ class ProductsService extends Component
 		if ($isVariant)
 			$element = $this->_getProductFromVariant($element);
 
-		$mailchimpProducts = MailchimpCommerce::getInstance()->chimp->getProducts();
+		$mailchimpProducts = MailchimpCommerceSync::getInstance()->chimp->getProducts();
 
 		foreach ($mailchimpProducts as $product) {
 			if ($element instanceof $product->variantClass) {

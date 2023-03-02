@@ -44,7 +44,7 @@ use craft\events\RegisterUrlRulesEvent;
 use craft\errors\ElementNotFoundException;
 
 /**
- * Class MailchimpCommerce
+ * Class MailchimpCommerceSync
  *
  * @author  Crankd Creative
  * @package crankd\mc
@@ -56,7 +56,7 @@ use craft\errors\ElementNotFoundException;
  * @property OrdersService $orders
  * @property PromosService $promos
  */
-class MailchimpCommerce extends Plugin
+class MailchimpCommerceSync extends Plugin
 {
 
 	// Properties
@@ -390,7 +390,7 @@ class MailchimpCommerce extends Plugin
 		/** @var Product $product */
 		$product = $context['product'];
 
-		$heading = MailchimpCommerce::t('Last Synced to Mailchimp');
+		$heading = MailchimpCommerceSync::t('Last Synced to Mailchimp');
 		$date = $this->products->getLastSyncedById($product->id);
 
 		return <<<HTML

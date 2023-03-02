@@ -16,7 +16,7 @@ use craft\web\Controller;
 use craft\elements\Address;
 use craft\models\FieldGroup;
 use craft\fields\Lightswitch;
-use crankd\mc\MailchimpCommerce;
+use crankd\mc\MailchimpCommerceSync;
 use craft\models\AssetTransform;
 use craft\commerce\records\Discount;
 use craft\commerce\models\OrderStatus;
@@ -36,7 +36,7 @@ class CpController extends Controller
 
 	public function actionIndex()
 	{
-		$settings = MailchimpCommerce::$i->getSettings();
+		$settings = MailchimpCommerceSync::$i->getSettings();
 
 
 		if ($settings->apiKey && $settings->listId)
@@ -50,7 +50,7 @@ class CpController extends Controller
 		$this->requireAdmin();
 
 		return $this->renderTemplate('mailchimp-commerce/_connect', [
-			'settings' => MailchimpCommerce::$i->getSettings(),
+			'settings' => MailchimpCommerceSync::$i->getSettings(),
 		]);
 	}
 
@@ -66,15 +66,15 @@ class CpController extends Controller
 		$hasCountry = $storeLocation && $storeLocation->countryCode;
 
 		return $this->renderTemplate('mailchimp-commerce/_list', [
-			'settings' => MailchimpCommerce::$i->getSettings(),
-			'lists' => MailchimpCommerce::$i->lists->all(),
+			'settings' => MailchimpCommerceSync::$i->getSettings(),
+			'lists' => MailchimpCommerceSync::$i->lists->all(),
 			'hasCountry' => $hasCountry,
 		]);
 	}
 
 	public function actionSync()
 	{
-		$i = MailchimpCommerce::$i;
+		$i = MailchimpCommerceSync::$i;
 
 		return $this->renderTemplate('mailchimp-commerce/_sync', [
 			'settings' => $i->getSettings(),
@@ -109,7 +109,7 @@ class CpController extends Controller
 				return $a;
 			},
 			[
-				['label' => MailchimpCommerce::t('None'), 'value' => ''],
+				['label' => MailchimpCommerceSync::t('None'), 'value' => ''],
 			]
 		);
 		$assetFields = array_reduce(
@@ -138,7 +138,7 @@ class CpController extends Controller
 				return array_merge($a, $fields);
 			},
 			[
-				['label' => MailchimpCommerce::t('None'), 'value' => ''],
+				['label' => MailchimpCommerceSync::t('None'), 'value' => ''],
 			]
 		);
 		$lightswitchFields = array_reduce(
@@ -167,12 +167,12 @@ class CpController extends Controller
 				return array_merge($a, $fields);
 			},
 			[
-				['label' => MailchimpCommerce::t('None'), 'value' => ''],
+				['label' => MailchimpCommerceSync::t('None'), 'value' => ''],
 			]
 		);
 
 		return $this->renderTemplate('mailchimp-commerce/_mappings', [
-			'settings' => MailchimpCommerce::$i->getSettings(),
+			'settings' => MailchimpCommerceSync::$i->getSettings(),
 			'products' => $this->_getProducts(),
 			'fields' => $fields,
 			'assetFields' => $assetFields,
@@ -201,11 +201,11 @@ class CpController extends Controller
 
 				return $a;
 			},
-			[['label' => MailchimpCommerce::t('None'), 'value' => '']]
+			[['label' => MailchimpCommerceSync::t('None'), 'value' => '']]
 		);
 
 		return $this->renderTemplate('mailchimp-commerce/_settings', [
-			'settings' => MailchimpCommerce::$i->getSettings(),
+			'settings' => MailchimpCommerceSync::$i->getSettings(),
 			'orderStatuses' => $orderStatuses,
 			'imageTransforms' => $imageTransforms,
 		]);
@@ -225,7 +225,7 @@ class CpController extends Controller
 	{
 		$products          = [];
 		$mailchimpProducts =
-			MailchimpCommerce::getInstance()->chimp->getProducts();
+			MailchimpCommerceSync::getInstance()->chimp->getProducts();
 
 		foreach ($mailchimpProducts as $mcProduct) {
 			$types = $mcProduct->getProductTypes;
@@ -242,7 +242,7 @@ class CpController extends Controller
 				},
 				[
 					[
-						'label' => MailchimpCommerce::t('All') . ' ' . $mcProduct->productName,
+						'label' => MailchimpCommerceSync::t('All') . ' ' . $mcProduct->productName,
 						'value' => '',
 					]
 				]

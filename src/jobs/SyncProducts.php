@@ -14,7 +14,7 @@ use craft\db\QueryAbortedException;
 use craft\errors\SiteNotFoundException;
 use craft\queue\BaseJob;
 use craft\queue\QueueInterface;
-use crankd\mc\MailchimpCommerce;
+use crankd\mc\MailchimpCommerceSync;
 use yii\base\InvalidConfigException;
 use yii\db\Exception;
 use yii\queue\Queue;
@@ -47,7 +47,7 @@ class SyncProducts extends BaseJob
 	 */
 	public function execute($queue): void
 	{
-		$products = MailchimpCommerce::$i->products;
+		$products = MailchimpCommerceSync::$i->products;
 		$i = 0;
 		$total = count($this->productIds);
 
@@ -71,7 +71,7 @@ class SyncProducts extends BaseJob
 
 	protected function defaultDescription(): ?string
 	{
-		return MailchimpCommerce::t('Syncing {name} to Mailchimp', [
+		return MailchimpCommerceSync::t('Syncing {name} to Mailchimp', [
 			'name' => $this->productName,
 		]);
 	}

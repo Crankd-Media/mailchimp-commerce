@@ -16,7 +16,7 @@ use craft\db\Query;
 use craft\helpers\Db;
 use craft\helpers\UrlHelper;
 use DateTime;
-use crankd\mc\MailchimpCommerce;
+use crankd\mc\MailchimpCommerceSync;
 use Throwable;
 use yii\db\Exception;
 
@@ -42,7 +42,7 @@ class PromosService extends Component
 	 */
 	public function syncPromoById($promoId)
 	{
-		if (MailchimpCommerce::getInstance()->getSettings()->disableSyncing)
+		if (MailchimpCommerceSync::getInstance()->getSettings()->disableSyncing)
 			return true;
 
 		$hasBeenSynced = $this->_hasPromoBeenSynced($promoId);
@@ -67,15 +67,15 @@ class PromosService extends Component
 	 */
 	public function deletePromoById($promoId)
 	{
-		if (MailchimpCommerce::getInstance()->getSettings()->disableSyncing)
+		if (MailchimpCommerceSync::getInstance()->getSettings()->disableSyncing)
 			return;
 
 		if (!$this->_hasPromoBeenSynced($promoId))
 			return;
 
-		$storeId = MailchimpCommerce::$i->getSettings()->storeId;
+		$storeId = MailchimpCommerceSync::$i->getSettings()->storeId;
 
-		list($success, $data, $error) = MailchimpCommerce::$i->chimp->delete(
+		list($success, $data, $error) = MailchimpCommerceSync::$i->chimp->delete(
 			'ecommerce/stores/' . $storeId . '/promo-rules/' . $promoId
 		);
 
@@ -119,9 +119,9 @@ class PromosService extends Component
 	 */
 	private function _createPromo($promoId, $data, $code)
 	{
-		$storeId = MailchimpCommerce::$i->getSettings()->storeId;
+		$storeId = MailchimpCommerceSync::$i->getSettings()->storeId;
 
-		list($success, $data, $error) = MailchimpCommerce::$i->chimp->post(
+		list($success, $data, $error) = MailchimpCommerceSync::$i->chimp->post(
 			'ecommerce/stores/' . $storeId . '/promo-rules',
 			$data
 		);
@@ -131,7 +131,7 @@ class PromosService extends Component
 			return false;
 		}
 
-		list($success, $data, $error) = MailchimpCommerce::$i->chimp->post(
+		list($success, $data, $error) = MailchimpCommerceSync::$i->chimp->post(
 			'ecommerce/stores/' . $storeId . '/promo-rules/' . $promoId . '/promo-codes',
 			$code
 		);
@@ -166,9 +166,9 @@ class PromosService extends Component
 	 */
 	private function _updatePromo($promoId, $data, $code)
 	{
-		$storeId = MailchimpCommerce::$i->getSettings()->storeId;
+		$storeId = MailchimpCommerceSync::$i->getSettings()->storeId;
 
-		list($success, $data, $error) = MailchimpCommerce::$i->chimp->patch(
+		list($success, $data, $error) = MailchimpCommerceSync::$i->chimp->patch(
 			'ecommerce/stores/' . $storeId . '/promo-rules/' . $promoId,
 			$data
 		);
@@ -178,7 +178,7 @@ class PromosService extends Component
 			return false;
 		}
 
-		list($success, $data, $error) = MailchimpCommerce::$i->chimp->patch(
+		list($success, $data, $error) = MailchimpCommerceSync::$i->chimp->patch(
 			'ecommerce/stores/' . $storeId . '/promo-rules/' . $promoId . '/promo-codes/' . $promoId,
 			$code
 		);
@@ -276,7 +276,7 @@ class PromosService extends Component
 			: true;
 
 		$redemptionUrl = Craft::$app->getView()->renderObjectTemplate(
-			MailchimpCommerce::$i->getSettings()->promoRedemptionUrl ?: '/',
+			MailchimpCommerceSync::$i->getSettings()->promoRedemptionUrl ?: '/',
 			$promo
 		);
 
