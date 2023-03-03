@@ -56,7 +56,7 @@ class SyncPromos extends BaseJob
 				$hasFailure = true;
 				Craft::error(
 					'Failed to sync promo ' . $id,
-					'mailchimp-commerce'
+					'mailchimp-commerce-sync'
 				);
 			}
 

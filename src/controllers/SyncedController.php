@@ -34,7 +34,7 @@ class SyncedController extends Controller
 
 		$data = MailchimpCommerceSync::$i->products->getSyncedFromMailchimp($offset);
 
-		return $this->renderTemplate('mailchimp-commerce/_synced/products', [
+		return $this->renderTemplate('mailchimp-commerce-sync/_synced/products', [
 			'settings' => MailchimpCommerceSync::$i->getSettings(),
 			'offsetLimit' => MailchimpCommerceSync::OFFSET_LIMIT,
 			'items' => $data['items'],

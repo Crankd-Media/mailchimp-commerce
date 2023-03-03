@@ -80,7 +80,7 @@ class PromosService extends Component
 		);
 
 		if (!$success) {
-			Craft::error($error, 'mailchimp-commerce');
+			Craft::error($error, 'mailchimp-commerce-sync');
 			return false;
 		}
 
@@ -127,7 +127,7 @@ class PromosService extends Component
 		);
 
 		if (!$success) {
-			Craft::error($error, 'mailchimp-commerce');
+			Craft::error($error, 'mailchimp-commerce-sync');
 			return false;
 		}
 
@@ -137,7 +137,7 @@ class PromosService extends Component
 		);
 
 		if (!$success) {
-			Craft::error($error, 'mailchimp-commerce');
+			Craft::error($error, 'mailchimp-commerce-sync');
 			return false;
 		}
 
@@ -174,7 +174,7 @@ class PromosService extends Component
 		);
 
 		if (!$success) {
-			Craft::error($error, 'mailchimp-commerce');
+			Craft::error($error, 'mailchimp-commerce-sync');
 			return false;
 		}
 
@@ -184,7 +184,7 @@ class PromosService extends Component
 		);
 
 		if (!$success) {
-			Craft::error($error, 'mailchimp-commerce');
+			Craft::error($error, 'mailchimp-commerce-sync');
 			return false;
 		}
 

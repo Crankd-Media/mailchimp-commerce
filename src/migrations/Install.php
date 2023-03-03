@@ -39,6 +39,7 @@ class Install extends Migration
 
 	private function _upProductsSynced()
 	{
+
 		$this->createTable('{{%mc_products_synced}}', [
 			'productId' => $this->integer(),
 			'lastSynced' => $this->dateTime(),

@@ -1,30 +1,30 @@
-{% extends 'mailchimp-commerce/_layout' %}
+{% extends 'mailchimp-commerce-sync/_layout' %}
 {% import '_includes/forms' as forms %}
-{% set title = 'List Settings'|t('mailchimp-commerce') %}
+{% set title = 'List Settings'|t('mailchimp-commerce-sync') %}
 {% set fullPageForm = true %}
 
 {% set isDisabled = settings.listId or not hasCountry %}
 
 {% block content %}
-	<input type="hidden" name="action" value="mailchimp-commerce/store/create">
+	<input type="hidden" name="action" value="mailchimp-commerce-sync/store/create">
 	{% if not settings.listId %}
-		{{ redirectInput('mailchimp-commerce/sync') }}
+		{{ redirectInput('mailchimp-commerce-sync/sync') }}
 	{% endif %}
 
 	{% if isDisabled %}
 		{% if not hasCountry %}
 			{% set u = cpUrl('commerce/store-settings/store') %}
-			<p>{{ ('You need to [set your store\'s address](' ~ u ~ ') before you can sync!')|t('mailchimp-commerce')|md }}</p>
+			<p>{{ ('You need to [set your store\'s address](' ~ u ~ ') before you can sync!')|t('mailchimp-commerce-sync')|md }}</p>
 		{% else %}
-			<p>{{ 'You have already synced your store. You can\'t change the list ID after a store has been synced.'|t('mailchimp-commerce') }}</p>
+			<p>{{ 'You have already synced your store. You can\'t change the list ID after a store has been synced.'|t('mailchimp-commerce-sync') }}</p>
 		{% endif %}
 		<div style="opacity:0.5">
 	{% endif %}
 
 	{{ forms.selectField({
-		label: 'Store List'|t('mailchimp-commerce'),
+		label: 'Store List'|t('mailchimp-commerce-sync'),
 		name: 'listId',
-		instructions: 'Select the Mailchimp list you want this store to be attached to.'|t('mailchimp-commerce'),
+		instructions: 'Select the Mailchimp list you want this store to be attached to.'|t('mailchimp-commerce-sync'),
 		options: lists,
 		disabled: settings.listId != null,
 		value: settings.listId,

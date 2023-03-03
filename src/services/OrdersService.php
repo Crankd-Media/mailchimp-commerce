@@ -90,7 +90,7 @@ class OrdersService extends Component
 		);
 
 		if (!$success) {
-			Craft::error($error, 'mailchimp-commerce');
+			Craft::error($error, 'mailchimp-commerce-sync');
 			return false;
 		}
 
@@ -140,7 +140,7 @@ class OrdersService extends Component
 		);
 
 		if (!$success) {
-			Craft::error('Create: ' . $error, 'mailchimp-commerce');
+			Craft::error('Create: ' . $error, 'mailchimp-commerce-sync');
 			return false;
 		}
 
@@ -178,7 +178,7 @@ class OrdersService extends Component
 		);
 
 		if (!$success) {
-			Craft::error('Update: ' . $error, 'mailchimp-commerce');
+			Craft::error('Update: ' . $error, 'mailchimp-commerce-sync');
 			return false;
 		}
 
@@ -325,7 +325,7 @@ class OrdersService extends Component
 			}
 		} else {
 			$data['checkout_url'] = UrlHelper::siteUrl(
-				Craft::$app->getConfig()->getGeneral()->actionTrigger . '/mailchimp-commerce/order/restore',
+				Craft::$app->getConfig()->getGeneral()->actionTrigger . '/mailchimp-commerce-sync/order/restore',
 				['number' => $order->number]
 			);
 		}

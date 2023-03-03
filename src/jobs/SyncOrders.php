@@ -57,7 +57,7 @@ class SyncOrders extends BaseJob
 				$hasFailure = true;
 				Craft::error(
 					'Failed to sync order ' . $id,
-					'mailchimp-commerce'
+					'mailchimp-commerce-sync'
 				);
 			}
 

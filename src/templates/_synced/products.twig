@@ -1,5 +1,5 @@
-{% extends 'mailchimp-commerce/_layout' %}
-{% set title = 'Synced Products'|t('mailchimp-commerce') %}
+{% extends 'mailchimp-commerce-sync/_layout' %}
+{% set title = 'Synced Products'|t('mailchimp-commerce-sync') %}
 
 {% css %}.mc-product-list li { display: flex; align-items: flex-start;
 margin-bottom: 24px; }
@@ -126,7 +126,7 @@ border-top: 1px solid #ccc; }
 		{% if offset > 0 %}
 			<a href="{{
 				cpUrl(
-					'mailchimp-commerce/synced/products',
+					'mailchimp-commerce-sync/synced/products',
 					{
 						offset: offset - offsetLimit
 					}
@@ -147,7 +147,7 @@ border-top: 1px solid #ccc; }
 		{% if offset + offsetLimit < total and total > offsetLimit %}
 			<a href="{{
 				cpUrl(
-					'mailchimp-commerce/synced/products',
+					'mailchimp-commerce-sync/synced/products',
 					{
 						offset: offset + offsetLimit
 					}

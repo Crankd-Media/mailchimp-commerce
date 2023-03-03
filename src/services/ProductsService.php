@@ -106,7 +106,7 @@ class ProductsService extends Component
 		);
 
 		if (!$success) {
-			Craft::error($error, 'mailchimp-commerce');
+			Craft::error($error, 'mailchimp-commerce-sync');
 			return false;
 		}
 
@@ -173,7 +173,7 @@ class ProductsService extends Component
 		);
 
 		if (!$success) {
-			Craft::error($error, 'mailchimp-commerce');
+			Craft::error($error, 'mailchimp-commerce-sync');
 			Craft::$app->getSession()->setError('An error occurred, please check the log');
 			return [
 				'items' => [],
@@ -209,7 +209,7 @@ class ProductsService extends Component
 		);
 
 		if (!$success) {
-			Craft::error($error, 'mailchimp-commerce');
+			Craft::error($error, 'mailchimp-commerce-sync');
 			return false;
 		}
 
@@ -245,7 +245,7 @@ class ProductsService extends Component
 		);
 
 		if (!$success) {
-			Craft::error($error, 'mailchimp-commerce');
+			Craft::error($error, 'mailchimp-commerce-sync');
 			return false;
 		}
 
@@ -320,7 +320,7 @@ class ProductsService extends Component
 		if (empty($variants)) {
 			Craft::debug(
 				'Tried to sync "' . $product->title . '" without variants (or it\'s equivalent)!',
-				'mailchimp-commerce'
+				'mailchimp-commerce-sync'
 			);
 			return false;
 		}

@@ -67,7 +67,7 @@ class OrderController extends Controller
 						false
 					)->execute();
 			} catch (Exception $e) {
-				Craft::error($e, 'mailchimp-commerce');
+				Craft::error($e, 'mailchimp-commerce-sync');
 			}
 		}
 

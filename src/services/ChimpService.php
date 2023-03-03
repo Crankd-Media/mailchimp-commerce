@@ -146,7 +146,7 @@ class ChimpService extends Component
 				]);
 			}
 		} catch (Exception $e) {
-			Craft::error($e->getMessage(), 'mailchimp-commerce');
+			Craft::error($e->getMessage(), 'mailchimp-commerce-sync');
 		}
 
 		$event = new RegisterMailchimpProductsEvent([

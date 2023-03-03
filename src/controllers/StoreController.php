@@ -76,6 +76,6 @@ class StoreController extends Controller
 
 		MailchimpCommerceSync::$i->store->delete();
 
-		return $this->redirect('mailchimp-commerce/connect');
+		return $this->redirect('mailchimp-commerce-sync/connect');
 	}
 }

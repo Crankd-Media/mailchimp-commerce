@@ -1,4 +1,4 @@
-{% extends 'mailchimp-commerce/_layout' %}
+{% extends 'mailchimp-commerce-sync/_layout' %}
 {% import '_includes/forms' as forms %}
 {% set title = 'Settings'|t('app') %}
 {% set fullPageForm = true %}
@@ -15,7 +15,7 @@ background-image: linear-gradient( 0deg, rgba(255, 0, 0, 0) 0%, rgba(255, 0, 0,
 
 {% block content %}
 	<input type="hidden" name="action" value="plugins/save-plugin-settings" />
-	<input type="hidden" name="pluginHandle" value="mailchimp-commerce" />
+	<input type="hidden" name="pluginHandle" value="mailchimp-commerce-sync" />
 
 	{% namespace 'settings' %}
 
@@ -23,9 +23,9 @@ background-image: linear-gradient( 0deg, rgba(255, 0, 0, 0) 0%, rgba(255, 0, 0,
 		forms.selectField({
 			first: true,
 			name: 'shippedStatusHandle',
-			label: 'Shipped Order Status'|t('mailchimp-commerce'),
+			label: 'Shipped Order Status'|t('mailchimp-commerce-sync'),
 			instructions: 'The statues that is used to define when an order has been shipped.'|t(
-				'mailchimp-commerce'
+				'mailchimp-commerce-sync'
 			),
 			required: true,
 			options: orderStatuses,
@@ -36,9 +36,9 @@ background-image: linear-gradient( 0deg, rgba(255, 0, 0, 0) 0%, rgba(255, 0, 0,
 	{{
 		forms.selectField({
 			name: 'thumbnailTransform',
-			label: 'Thumbnail Transform'|t('mailchimp-commerce'),
+			label: 'Thumbnail Transform'|t('mailchimp-commerce-sync'),
 			instructions: 'What transform to use when transforming the product thumbnails. Defaults to 1000px square.'|t(
-				'mailchimp-commerce'
+				'mailchimp-commerce-sync'
 			),
 			options: imageTransforms,
 			value: settings.thumbnailTransform
@@ -48,9 +48,9 @@ background-image: linear-gradient( 0deg, rgba(255, 0, 0, 0) 0%, rgba(255, 0, 0,
 	{{
 		forms.selectField({
 			name: 'imageTransform',
-			label: 'Image Transform'|t('mailchimp-commerce'),
+			label: 'Image Transform'|t('mailchimp-commerce-sync'),
 			instructions: 'What transform to use when transforming the product images. Defaults to 1000px wide, dynamic height.'|t(
-				'mailchimp-commerce'
+				'mailchimp-commerce-sync'
 			),
 			options: imageTransforms,
 			value: settings.imageTransform
@@ -60,9 +60,9 @@ background-image: linear-gradient( 0deg, rgba(255, 0, 0, 0) 0%, rgba(255, 0, 0,
 	{{
 		forms.textField({
 			name: 'promoRedemptionUrl',
-			label: 'Promo Redemption URL'|t('mailchimp-commerce'),
+			label: 'Promo Redemption URL'|t('mailchimp-commerce-sync'),
 			instructions: 'The URL that will be used for redeeming a promo code.'|t(
-				'mailchimp-commerce'
+				'mailchimp-commerce-sync'
 			),
 			value: settings.promoRedemptionUrl,
 			placeholder: 'i.e. /cart?discount={code}'
@@ -72,9 +72,9 @@ background-image: linear-gradient( 0deg, rgba(255, 0, 0, 0) 0%, rgba(255, 0, 0,
 	{{
 		forms.textField({
 			name: 'abandonedCartRestoreUrl',
-			label: 'Abandoned Cart Restore URL'|t('mailchimp-commerce'),
+			label: 'Abandoned Cart Restore URL'|t('mailchimp-commerce-sync'),
 			instructions: 'The URL that will be redirected to after an abandoned cart is restored.'|t(
-				'mailchimp-commerce'
+				'mailchimp-commerce-sync'
 			),
 			value: settings.abandonedCartRestoreUrl,
 			placeholder: 'i.e. /cart'
@@ -84,9 +84,9 @@ background-image: linear-gradient( 0deg, rgba(255, 0, 0, 0) 0%, rgba(255, 0, 0,
 	{{
 		forms.textField({
 			name: 'expiredCartError',
-			label: 'Expired Cart Error'|t('mailchimp-commerce'),
+			label: 'Expired Cart Error'|t('mailchimp-commerce-sync'),
 			instructions: 'The error notice sent when an abandoned cart has expired.'|t(
-				'mailchimp-commerce'
+				'mailchimp-commerce-sync'
 			),
 			value: settings.expiredCartError
 		})
@@ -95,9 +95,9 @@ background-image: linear-gradient( 0deg, rgba(255, 0, 0, 0) 0%, rgba(255, 0, 0,
 	{{
 		forms.textField({
 			name: 'completedCartError',
-			label: 'Completed Cart Error'|t('mailchimp-commerce'),
+			label: 'Completed Cart Error'|t('mailchimp-commerce-sync'),
 			instructions: 'The error notice sent when an abandoned cart that has already been completed is attempted to be restored.'|t(
-				'mailchimp-commerce'
+				'mailchimp-commerce-sync'
 			),
 			value: settings.completedCartError
 		})
@@ -106,9 +106,9 @@ background-image: linear-gradient( 0deg, rgba(255, 0, 0, 0) 0%, rgba(255, 0, 0,
 	{{
 		forms.textField({
 			name: 'cartRestoredNotice',
-			label: 'Cart Restored Notice'|t('mailchimp-commerce'),
+			label: 'Cart Restored Notice'|t('mailchimp-commerce-sync'),
 			instructions: 'The success notice sent when an abandoned cart is restored.'|t(
-				'mailchimp-commerce'
+				'mailchimp-commerce-sync'
 			),
 			value: settings.cartRestoredNotice
 		})
@@ -116,18 +116,19 @@ background-image: linear-gradient( 0deg, rgba(255, 0, 0, 0) 0%, rgba(255, 0, 0,
 
 	<div class="danger-zone">
 		<h2>
-			{{ 'Danger Zone'|t('mailchimp-commerce') }}
+			{{ 'Danger Zone'|t('mailchimp-commerce-sync') }}
 		</h2>
 
 		<p>
 			{{
 				'Use the button below to disconnect your store. This will remove it from Mailchimp, and purge any data the plugin has stored locally.'|t(
-					'mailchimp-commerce'
+					'mailchimp-commerce-sync'
 				)
 			}}
 		</p>
-		<a href="{{ cpUrl('mailchimp-commerce/purge') }}" class="btn submit">
-			{{ 'Disconnect your store'|t('mailchimp-commerce') }}
+		<a href="{{ cpUrl('mailchimp-commerce-sync/purge') }}"
+			class="btn submit">
+			{{ 'Disconnect your store'|t('mailchimp-commerce-sync') }}
 		</a>
 	</div>
 

@@ -58,7 +58,7 @@ class SyncProducts extends BaseJob
 				$hasFailure = true;
 				Craft::error(
 					'Failed to sync product ' . $id,
-					'mailchimp-commerce'
+					'mailchimp-commerce-sync'
 				);
 			}
 

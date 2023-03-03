@@ -40,16 +40,16 @@ class CpController extends Controller
 
 
 		if ($settings->apiKey && $settings->listId)
-			return $this->redirect('mailchimp-commerce/sync');
+			return $this->redirect('mailchimp-commerce-sync/sync');
 
-		return $this->redirect('mailchimp-commerce/connect');
+		return $this->redirect('mailchimp-commerce-sync/connect');
 	}
 
 	public function actionConnect()
 	{
 		$this->requireAdmin();
 
-		return $this->renderTemplate('mailchimp-commerce/_connect', [
+		return $this->renderTemplate('mailchimp-commerce-sync/_connect', [
 			'settings' => MailchimpCommerceSync::$i->getSettings(),
 		]);
 	}
@@ -65,7 +65,7 @@ class CpController extends Controller
 
 		$hasCountry = $storeLocation && $storeLocation->countryCode;
 
-		return $this->renderTemplate('mailchimp-commerce/_list', [
+		return $this->renderTemplate('mailchimp-commerce-sync/_list', [
 			'settings' => MailchimpCommerceSync::$i->getSettings(),
 			'lists' => MailchimpCommerceSync::$i->lists->all(),
 			'hasCountry' => $hasCountry,
@@ -76,7 +76,7 @@ class CpController extends Controller
 	{
 		$i = MailchimpCommerceSync::$i;
 
-		return $this->renderTemplate('mailchimp-commerce/_sync', [
+		return $this->renderTemplate('mailchimp-commerce-sync/_sync', [
 			'settings' => $i->getSettings(),
 			'totalProductsSynced' => $i->products->getTotalProductsSynced(),
 			'products' => $this->_getProducts(),
@@ -171,7 +171,7 @@ class CpController extends Controller
 			]
 		);
 
-		return $this->renderTemplate('mailchimp-commerce/_mappings', [
+		return $this->renderTemplate('mailchimp-commerce-sync/_mappings', [
 			'settings' => MailchimpCommerceSync::$i->getSettings(),
 			'products' => $this->_getProducts(),
 			'fields' => $fields,
@@ -204,7 +204,7 @@ class CpController extends Controller
 			[['label' => MailchimpCommerceSync::t('None'), 'value' => '']]
 		);
 
-		return $this->renderTemplate('mailchimp-commerce/_settings', [
+		return $this->renderTemplate('mailchimp-commerce-sync/_settings', [
 			'settings' => MailchimpCommerceSync::$i->getSettings(),
 			'orderStatuses' => $orderStatuses,
 			'imageTransforms' => $imageTransforms,
@@ -215,7 +215,7 @@ class CpController extends Controller
 	{
 		$this->requireAdmin();
 
-		return $this->renderTemplate('mailchimp-commerce/_purge');
+		return $this->renderTemplate('mailchimp-commerce-sync/_purge');
 	}
 
 	// Helpers

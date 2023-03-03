@@ -206,7 +206,7 @@ class MailchimpCommerceSync extends Plugin
 	public function getSettingsResponse(): mixed
 	{
 		return Craft::$app->controller->redirect(
-			UrlHelper::cpUrl('mailchimp-commerce/connect')
+			UrlHelper::cpUrl('mailchimp-commerce-sync/connect')
 		);
 	}
 
@@ -233,28 +233,28 @@ class MailchimpCommerceSync extends Plugin
 
 		if (Craft::$app->getRequest()->getIsCpRequest()) {
 			Craft::$app->getResponse()->redirect(
-				UrlHelper::cpUrl('mailchimp-commerce/connect')
+				UrlHelper::cpUrl('mailchimp-commerce-sync/connect')
 			)->send();
 		}
 	}
 
 	public function onRegisterCpUrlRules(RegisterUrlRulesEvent $event)
 	{
-		$event->rules['mailchimp-commerce'] = 'mailchimp-commerce/cp/index';
-		$event->rules['mailchimp-commerce/sync'] = 'mailchimp-commerce/cp/sync';
-		$event->rules['mailchimp-commerce/connect']  = 'mailchimp-commerce/cp/connect';
-		$event->rules['mailchimp-commerce/list'] = 'mailchimp-commerce/cp/list';
-		$event->rules['mailchimp-commerce/mappings'] = 'mailchimp-commerce/cp/mappings';
-		$event->rules['mailchimp-commerce/settings'] = 'mailchimp-commerce/cp/settings';
-		$event->rules['mailchimp-commerce/purge'] = 'mailchimp-commerce/cp/purge';
+		$event->rules['mailchimp-commerce-sync'] = 'mailchimp-commerce-sync/cp/index';
+		$event->rules['mailchimp-commerce-sync/sync'] = 'mailchimp-commerce-sync/cp/sync';
+		$event->rules['mailchimp-commerce-sync/connect']  = 'mailchimp-commerce-sync/cp/connect';
+		$event->rules['mailchimp-commerce-sync/list'] = 'mailchimp-commerce-sync/cp/list';
+		$event->rules['mailchimp-commerce-sync/mappings'] = 'mailchimp-commerce-sync/cp/mappings';
+		$event->rules['mailchimp-commerce-sync/settings'] = 'mailchimp-commerce-sync/cp/settings';
+		$event->rules['mailchimp-commerce-sync/purge'] = 'mailchimp-commerce-sync/cp/purge';
 
-		$event->rules['mailchimp-commerce/synced/products'] = 'mailchimp-commerce/synced/products';
+		$event->rules['mailchimp-commerce-sync/synced/products'] = 'mailchimp-commerce-sync/synced/products';
 	}
 
 	public function onRegisterAlerts(RegisterCpAlertsEvent $event)
 	{
 		if (
-			strpos(Craft::$app->getRequest()->getFullPath(), 'mailchimp-commerce') === false ||
+			strpos(Craft::$app->getRequest()->getFullPath(), 'mailchimp-commerce-sync') === false ||
 			!$this->getSettings()->disableSyncing
 		) return;
 
@@ -406,6 +406,6 @@ HTML;
 
 	public static function t($message, $params = [])
 	{
-		return Craft::t('mailchimp-commerce', $message, $params);
+		return Craft::t('mailchimp-commerce-sync', $message, $params);
 	}
 }

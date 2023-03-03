@@ -68,7 +68,7 @@ class StoreService extends Component
 		$i = MailchimpCommerceSync::$i;
 
 		if ($i->getSettings()->listId) {
-			Craft::error('You can\'t change the list ID', 'mailchimp-commerce');
+			Craft::error('You can\'t change the list ID', 'mailchimp-commerce-sync');
 			return false;
 		}
 
@@ -80,7 +80,7 @@ class StoreService extends Component
 		);
 
 		if ($error) {
-			Craft::error($error, 'mailchimp-commerce');
+			Craft::error($error, 'mailchimp-commerce-sync');
 			return $success;
 		}
 
@@ -114,7 +114,7 @@ class StoreService extends Component
 		);
 
 		if ($error)
-			Craft::error($error, 'mailchimp-commerce');
+			Craft::error($error, 'mailchimp-commerce-sync');
 
 		return $success;
 	}
